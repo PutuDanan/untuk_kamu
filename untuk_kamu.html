@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Untuk Kamu 🤍</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500&family=Dancing+Script:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --blush: #f8dfe2;
+        --cream: #fff7f0;
+        --rose: #d98a99;
+        --wine: #7a2237;
+        --ink: #4a2a32;
+        --night: #2a1118;
+        --serif: "Cormorant Garamond", Georgia, serif;
+        --sans: "Inter", system-ui, sans-serif;
+        --hand: "Dancing Script", "Segoe Script", cursive;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        -webkit-tap-highlight-color: transparent;
+      }
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      body {
+        background: radial-gradient(circle at 50% 30%, #4a1a28, var(--night));
+        font-family: var(--sans);
+        color: var(--ink);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #phone {
+        position: relative;
+        width: 100%;
+        max-width: 430px;
+        height: 100%;
+        max-height: 900px;
+        overflow: hidden;
+        background: linear-gradient(170deg, var(--cream) 0%, var(--blush) 100%);
+        transition: background 4s;
+      }
+      @media (min-width: 500px) {
+        #phone {
+          height: min(92%, 860px);
+          border-radius: 38px;
+          box-shadow:
+            0 30px 80px #0008,
+            0 0 0 8px #1b0a10;
+        }
+      }
+      #phone.warm {
+        background: linear-gradient(170deg, #ffeadb 0%, #f5c3cb 100%);
+      }
+      #bg {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .fh {
+        position: absolute;
+        bottom: -30px;
+        color: var(--rose);
+        opacity: 0;
+        animation: rise linear forwards;
+      }
+      @keyframes rise {
+        10% {
+          opacity: 0.5;
+        }
+        100% {
+          transform: translateY(-110vh) translateX(var(--dx)) rotate(var(--r));
+          opacity: 0;
+        }
+      }
+      .spark {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 0 8px 2px #fff9;
+        animation: tw 3s ease-in-out infinite;
+      }
+      @keyframes tw {
+        50% {
+          opacity: 0.1;
+          transform: scale(0.5);
+        }
+      }
+      .screen {
+        position: absolute;
+        inset: 0;
+        padding: 48px 30px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        opacity: 0;
+        transform: translateY(24px);
+        filter: blur(6px);
+        transition:
+          opacity 0.7s,
+          transform 0.7s,
+          filter 0.7s;
+        pointer-events: none;
+      }
+      .screen.on {
+        opacity: 1;
+        transform: none;
+        filter: none;
+        pointer-events: auto;
+      }
+      .screen.out {
+        opacity: 0;
+        transform: translateY(-24px) rotate(-1deg);
+        filter: blur(6px);
+      }
+      h1,
+      h2 {
+        font-family: var(--serif);
+        font-weight: 600;
+        color: var(--wine);
+        line-height: 1.15;
+      }
+      h1 {
+        font-size: 2.3rem;
+      }
+      h2 {
+        font-size: 1.9rem;
+      }
+      .sub {
+        margin-top: 12px;
+        font-size: 0.95rem;
+        opacity: 0.8;
+      }
+      .line {
+        font-family: var(--serif);
+        font-size: 1.4rem;
+        line-height: 1.4;
+        margin: 9px 0;
+        opacity: 0;
+        transform: translateY(10px);
+        animation: li 0.9s forwards;
+      }
+      .line.em {
+        color: var(--wine);
+        font-style: italic;
+        font-weight: 600;
+        font-size: 1.55rem;
+      }
+      @keyframes li {
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .idx {
+        position: absolute;
+        top: calc(28px + env(safe-area-inset-top, 0px));
+        font-size: 0.8rem;
+        letter-spacing: 0.15em;
+        color: var(--rose);
+      }
+      .btn {
+        min-height: 48px;
+        padding: 0 28px;
+        border-radius: 30px;
+        border: 1px solid var(--wine);
+        background: transparent;
+        color: var(--wine);
+        font: 500 1rem var(--sans);
+        cursor: pointer;
+        transition:
+          transform 0.2s,
+          box-shadow 0.3s,
+          opacity 0.6s,
+          filter 0.6s;
+      }
+      .btn:active {
+        transform: scale(0.95);
+      }
+      .btn:focus-visible {
+        outline: 3px solid var(--rose);
+        outline-offset: 3px;
+      }
+      .btn.primary {
+        background: linear-gradient(135deg, #a8334d, var(--wine));
+        color: #fff;
+        border-color: transparent;
+        box-shadow: 0 6px 24px #a8334d66;
+      }
+      .next {
+        margin-top: 26px;
+        opacity: 0;
+        animation: li 0.8s 1.8s forwards;
+      }
+      .heart {
+        font-size: 5rem;
+        color: #c4455f;
+        margin: 34px 0 30px;
+        filter: drop-shadow(0 0 18px #e8708a);
+        animation: beat 2.2s ease-in-out infinite;
+      }
+      @keyframes beat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        15% {
+          transform: scale(1.14);
+        }
+        30% {
+          transform: scale(1);
+        }
+        45% {
+          transform: scale(1.08);
+        }
+      }
+      .row {
+        display: flex;
+        gap: 14px;
+        margin-top: 34px;
+        align-items: center;
+        justify-content: center;
+        min-height: 56px;
+      }
+      #no {
+        transition:
+          transform 0.5s,
+          opacity 0.7s,
+          filter 0.7s;
+      }
+      #no.shake {
+        animation: sh 0.45s;
+      }
+      @keyframes sh {
+        25% {
+          translate: -6px;
+        }
+        50% {
+          translate: 6px;
+        }
+        75% {
+          translate: -4px;
+        }
+      }
+      #no.gone {
+        opacity: 0;
+        filter: blur(8px);
+        transform: scale(0.2);
+        pointer-events: none;
+        position: absolute;
+      }
+      #yes {
+        animation: glow 2.4s ease-in-out infinite;
+      }
+      @keyframes glow {
+        50% {
+          box-shadow:
+            0 0 0 7px #d98a9944,
+            0 8px 34px #a8334d99;
+        }
+      }
+      #modal {
+        position: absolute;
+        inset: 0;
+        background: #2a111866;
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.8s;
+        z-index: 5;
+      }
+      #modal.on {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .card {
+        max-height: 100%;
+        overflow-y: auto;
+        background: linear-gradient(160deg, #fffaf5, #fde6e8);
+        border-radius: 28px;
+        padding: 34px 26px;
+        text-align: center;
+        border: 1px solid #fff;
+        box-shadow:
+          0 0 0 2px #e8a3b0,
+          0 0 40px #f08aa088;
+        transform: scale(0.9);
+        transition: transform 0.8s;
+      }
+      #modal.on .card {
+        transform: scale(1);
+      }
+      .card p {
+        font-family: var(--serif);
+        font-size: 1.2rem;
+        line-height: 1.45;
+        margin: 8px 0;
+      }
+      .card .gap {
+        margin-top: 18px;
+      }
+      .big {
+        font-family: var(--serif);
+        font-size: 2rem;
+        color: var(--wine);
+        font-weight: 600;
+        margin: 22px 0 10px;
+        line-height: 1.15;
+      }
+      .sig {
+        font-family: var(--hand) !important;
+        font-size: 1.1rem !important;
+        color: var(--wine);
+        margin-top: 14px !important;
+      }
+      #mini {
+        position: absolute;
+        top: 14px;
+        right: 16px;
+        font-size: 1.2rem;
+        color: #c4455f;
+        animation: beat 2.2s infinite;
+        display: none;
+        z-index: 6;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.01s !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01s !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="phone">
+      <div id="bg"></div>
+      <div id="app"></div>
+      <div id="modal" role="dialog" aria-modal="true">
+        <div class="card" id="card"></div>
+      </div>
+    </div>
+    <script>
+      /* ============ EDIT ME ============ */
+      const CONFIG = {
+        girlfriendName: "Sayang",
+        boyfriendName: "", // optional, shown in the signature
+        introTitle: "Untuk Kamu, {name} 🤍",
+        introSub: "Ada sesuatu yang ingin aku sampaikan dari hati.",
+        openLabel: "Open My Heart ♡",
+        colors: {
+          rose: "#d98a99",
+          wine: "#7a2237",
+          blush: "#f8dfe2",
+          cream: "#fff7f0",
+        },
+        messages: [
+          [
+            "{name}, aku tahu mungkin kata 'maaf' saja tidak cukup untuk memperbaiki semuanya.",
+            "I know I disappointed you, and I know I made you upset.",
+            ["Dan aku benar-benar menyesal."],
+          ],
+          [
+            "Aku sadar ada hal-hal yang aku lakukan dan katakan yang mungkin membuat kamu merasa sedih, kecewa, atau merasa tidak dihargai.",
+            "Seharusnya aku lebih mengerti perasaanmu.",
+            "Seharusnya aku lebih menjaga hati kamu.",
+          ],
+          [
+            "Aku tidak mau mencari alasan atas kesalahanku.",
+            "Aku tidak mau membela diri atau membuat kesalahanku terlihat kecil.",
+            ["Aku salah."],
+            "Dan aku benar-benar minta maaf karena sudah membuat orang yang paling aku sayangi merasa terluka.",
+          ],
+          [
+            "Kalau waktu bisa diputar kembali, aku ingin memilih kata-kata yang lebih baik.",
+            "Aku ingin lebih banyak mendengarkan daripada membiarkan ego berbicara.",
+            "Aku ingin lebih menjaga perasaanmu daripada memikirkan diriku sendiri.",
+          ],
+          [
+            "Kamu mungkin tidak tahu seberapa berarti kamu buat aku.",
+            "Di balik semua kekuranganku, satu hal yang tidak pernah berubah adalah...",
+            ["Aku sangat mencintai kamu."],
+            "Dan kehilangan senyum kamu karena kesalahanku adalah sesuatu yang benar-benar aku sesali.",
+          ],
+          [
+            "Aku tidak berharap kamu langsung melupakan semuanya.",
+            "Aku juga tidak ingin memaksamu untuk berhenti merasa kecewa.",
+            "Aku hanya ingin diberi kesempatan untuk membuktikan bahwa aku bisa belajar dari kesalahanku.",
+            "Bahwa aku bisa menjadi seseorang yang lebih baik untuk kamu.",
+          ],
+          [
+            "Jadi kali ini...",
+            "Aku ingin bertanya langsung kepada kamu.",
+            "Setelah semua kesalahan yang aku lakukan...",
+            "Setelah aku membuat kamu kecewa dan kesal...",
+            ["Apakah kamu mau memaafkan aku, {name}? 🤍"],
+          ],
+        ],
+        question: {
+          title: "Will you forgive me, {name}? 🤍",
+          lines: [
+            "Aku tahu aku tidak sempurna.",
+            "Tapi aku benar-benar ingin memperbaiki semuanya.",
+          ],
+          no: "Tidak 🥺",
+          yes: "Iya, aku maafkan 🤍",
+          noReplies: [
+            "Nooo 🥺",
+            "Jangan dong 😭",
+            "Kasih aku kesempatan 🥺",
+            "Please? 🤍",
+          ],
+        },
+        final: {
+          title: "Terima kasih, {name} 🤍",
+          groups: [
+            [
+              "Terima kasih sudah mau memaafkan aku.",
+              "Aku mungkin tidak bisa mengubah apa yang sudah terjadi, tapi aku bisa berusaha mengubah diriku menjadi lebih baik setelah ini.",
+              "Terima kasih karena masih memberikan aku kesempatan.",
+              "Terima kasih karena masih memilih untuk membuka hati kamu untukku.",
+            ],
+            [
+              "Aku tidak janji akan menjadi sempurna.",
+              "Tapi aku janji akan terus belajar.",
+              "Belajar memahami kamu.",
+              "Belajar menjaga perasaan kamu.",
+              "Belajar menjadi pasangan yang lebih baik.",
+            ],
+            [
+              "Karena buat aku...",
+              "Kamu bukan seseorang yang ingin aku kehilangan.",
+              "Kamu adalah seseorang yang ingin terus aku perjuangkan. 🤍",
+            ],
+          ],
+          big: "I love you, {name}. Always. 🤍",
+          signature:
+            "— From someone who is truly sorry and loves you very much.",
+        },
+      };
+      /* ================================= */
+      const C = CONFIG,
+        $ = (s) => document.querySelector(s),
+        t = (s) => s.replaceAll("{name}", C.girlfriendName);
+      for (const k in C.colors)
+        document.documentElement.style.setProperty("--" + k, C.colors[k]);
+      const app = $("#app"),
+        phone = $("#phone"),
+        TOTAL = C.messages.length;
+      let currentStep = -1,
+        noClickCount = 0,
+        busy = false;
+
+      /* background hearts + sparkles */
+      function floatHeart(burst) {
+        const h = document.createElement("span");
+        h.className = "fh";
+        h.textContent = Math.random() > 0.4 ? "♥" : "♡";
+        const s = 10 + Math.random() * (burst ? 26 : 16);
+        h.style.cssText = `left:${Math.random() * 100}%;font-size:${s}px;animation-duration:${(burst ? 4 : 9) + Math.random() * 6}s;--dx:${(Math.random() - 0.5) * 80}px;--r:${(Math.random() - 0.5) * 60}deg`;
+        $("#bg").appendChild(h);
+        setTimeout(() => h.remove(), 16000);
+      }
+      let rate = 1800;
+      (function loop() {
+        floatHeart();
+        setTimeout(loop, rate);
+      })();
+      for (let i = 0; i < 14; i++) {
+        const s = document.createElement("i");
+        s.className = "spark";
+        s.style.cssText = `left:${Math.random() * 100}%;top:${Math.random() * 100}%;animation-delay:${Math.random() * 3}s`;
+        $("#bg").appendChild(s);
+      }
+
+      /* screens */
+      function mk(html) {
+        const d = document.createElement("section");
+        d.className = "screen";
+        d.innerHTML = html;
+        return d;
+      }
+      function lines(arr) {
+        let d = 0;
+        return arr
+          .map((l) => {
+            const em = Array.isArray(l);
+            const txt = t(em ? l[0] : l);
+            d += 0.9;
+            return `<p class="line${em ? " em" : ""}" style="animation-delay:${d - 0.5}s">${txt}</p>`;
+          })
+          .join("");
+      }
+      function build(step) {
+        if (step === -1)
+          return mk(
+            `<h1>${t(C.introTitle)}</h1><p class="sub">${C.introSub}</p><div class="heart" aria-hidden="true">♥</div><button class="btn primary" data-go>${C.openLabel}</button>`,
+          );
+        if (step < TOTAL) {
+          const m = C.messages[step];
+          const n = String(step + 1).padStart(2, "0");
+          return mk(
+            `<div class="idx">${n} / ${String(TOTAL).padStart(2, "0")}</div>${lines(m)}<button class="btn next primary" style="animation-delay:${m.length * 0.9 + 0.9}s" data-go>${step === TOTAL - 1 ? "Lanjut →" : "Next →"}</button>`,
+          );
+        }
+        const q = C.question;
+        return mk(
+          `<h2>${t(q.title)}</h2>${q.lines.map((l) => `<p class="sub" style="font-family:var(--serif);font-size:1.25rem">${l}</p>`).join("")}<div class="heart" style="font-size:3.4rem;margin:26px 0 0" aria-hidden="true">♥</div><div class="row"><button class="btn" id="no">${q.no}</button><button class="btn primary" id="yes">${q.yes}</button></div>`,
+        );
+      }
+      function go(step) {
+        if (busy) return;
+        busy = true;
+        const old = app.firstElementChild,
+          el = build(step);
+        app.appendChild(el);
+        currentStep = step;
+        if (old) {
+          old.classList.remove("on");
+          old.classList.add("out");
+          setTimeout(() => old.remove(), 800);
+        }
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => el.classList.add("on")),
+        );
+        el.querySelectorAll("[data-go]").forEach(
+          (b) => (b.onclick = () => go(currentStep + 1)),
+        );
+        if (step === TOTAL) {
+          $("#no").onclick = onNo;
+          $("#yes").onclick = onYes;
+        }
+        setTimeout(() => (busy = false), 700);
+      }
+
+      /* the "Tidak" button */
+      function onNo() {
+        const b = $("#no"),
+          r = C.question.noReplies;
+        b.classList.remove("shake");
+        void b.offsetWidth;
+        b.classList.add("shake");
+        b.textContent = r[Math.min(noClickCount, r.length - 1)];
+        noClickCount++;
+        const sc = Math.max(0.45, 1 - noClickCount * 0.14),
+          dx = (noClickCount % 2 ? -1 : 1) * noClickCount * 9;
+        b.style.transform = `translateX(${dx}px) scale(${sc})`;
+        b.style.opacity = Math.max(0.15, 1 - noClickCount * 0.22);
+        b.style.filter = `blur(${noClickCount * 0.6}px)`;
+        if (noClickCount >= r.length + 1)
+          setTimeout(() => b.classList.add("gone"), 500);
+      }
+
+      /* forgiveness */
+      function onYes() {
+        for (let i = 0; i < 40; i++) setTimeout(() => floatHeart(true), i * 70);
+        rate = 700;
+        phone.classList.add("warm");
+        const f = C.final;
+        $("#card").innerHTML =
+          `<h2>${t(f.title)}</h2>${f.groups.map((g) => `<div class="gap">${g.map((l) => `<p>${t(l)}</p>`).join("")}</div>`).join("")}<div class="big">${t(f.big)}</div><p class="sig">${f.signature}${C.boyfriendName ? "<br>" + C.boyfriendName : ""}</p>`;
+        setTimeout(() => $("#modal").classList.add("on"), 700);
+      }
+      go(-1);
+    </script>
+  </body>
+</html>
