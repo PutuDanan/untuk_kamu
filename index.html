@@ -339,15 +339,30 @@
         color: var(--wine);
         margin-top: 14px !important;
       }
-      #mini {
+      #music {
         position: absolute;
-        top: 14px;
-        right: 16px;
+        top: calc(8px + env(safe-area-inset-top, 0px));
+        right: 10px;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 1px solid #d98a9988;
+        background: #fff8;
+        color: var(--wine);
         font-size: 1.2rem;
-        color: #c4455f;
-        animation: beat 2.2s infinite;
+        cursor: pointer;
         display: none;
         z-index: 6;
+        backdrop-filter: blur(6px);
+      }
+      #music.show {
+        display: block;
+      }
+      #music.off {
+        opacity: 0.55;
+      }
+      #music:focus-visible {
+        outline: 3px solid var(--rose);
       }
       @media (prefers-reduced-motion: reduce) {
         * {
@@ -362,6 +377,9 @@
     <div id="phone">
       <div id="bg"></div>
       <div id="app"></div>
+      <button id="music" aria-label="Music on/off" title="Music on/off">
+        ♪
+      </button>
       <div id="modal" role="dialog" aria-modal="true">
         <div class="card" id="card"></div>
       </div>
@@ -537,6 +555,7 @@
       function go(step) {
         if (busy) return;
         busy = true;
+        if (step === 0) startMusic();
         const old = app.firstElementChild,
           el = build(step);
         app.appendChild(el);
@@ -587,6 +606,98 @@
           `<h2>${t(f.title)}</h2>${f.groups.map((g) => `<div class="gap">${g.map((l) => `<p>${t(l)}</p>`).join("")}</div>`).join("")}<div class="big">${t(f.big)}</div><p class="sig">${f.signature}${C.boyfriendName ? "<br>" + C.boyfriendName : ""}</p>`;
         setTimeout(() => $("#modal").classList.add("on"), 700);
       }
+
+      /* music: soft music-box melody synthesized live (no audio file needed) */
+      let ac,
+        master,
+        musicOn = false,
+        timer,
+        stepN = 0;
+      const CH = [
+        [220, 261.6, 329.6, 440],
+        [174.6, 220, 261.6, 349.2],
+        [261.6, 329.6, 392, 523.3],
+        [196, 246.9, 293.7, 392],
+      ];
+      const MEL = [
+        659.3, 0, 587.3, 0, 523.3, 0, 587.3, 0, 523.3, 0, 440, 0, 523.3, 0, 0,
+        0,
+      ];
+      function note(f, t0, dur, vol) {
+        [
+          [1, "triangle", 1],
+          [2, "sine", 0.25],
+        ].forEach(([m, type, g]) => {
+          const o = ac.createOscillator(),
+            e = ac.createGain();
+          o.type = type;
+          o.frequency.value = f * m;
+          e.gain.setValueAtTime(0, t0);
+          e.gain.linearRampToValueAtTime(vol * g, t0 + 0.015);
+          e.gain.exponentialRampToValueAtTime(0.0008, t0 + dur);
+          o.connect(e).connect(master);
+          o.start(t0);
+          o.stop(t0 + dur + 0.05);
+        });
+      }
+      function tick() {
+        const t0 = ac.currentTime + 0.05,
+          bar = Math.floor(stepN / 8) % 4,
+          i = stepN % 8,
+          c = CH[bar];
+        note(c[[0, 1, 2, 3, 2, 1, 2, 3][i]] / (i === 0 ? 2 : 1), t0, 1.6, 0.22);
+        const m = MEL[(stepN % 16) + (Math.floor(stepN / 16) % 2 ? 0 : 0)];
+        if (m && bar % 2 === 0) note(m, t0, 2.2, 0.14);
+        stepN++;
+      }
+      function startMusic() {
+        try {
+          if (!ac) {
+            ac = new (window.AudioContext || window.webkitAudioContext)();
+            master = ac.createGain();
+            master.gain.value = 0;
+            const d = ac.createDelay(),
+              fb = ac.createGain(),
+              lp = ac.createBiquadFilter();
+            d.delayTime.value = 0.38;
+            fb.gain.value = 0.38;
+            lp.frequency.value = 2200;
+            master.connect(ac.destination);
+            master.connect(d);
+            d.connect(lp);
+            lp.connect(fb);
+            fb.connect(d);
+            lp.connect(ac.destination);
+            timer = setInterval(() => {
+              if (musicOn) tick();
+            }, 430);
+          }
+          ac.resume();
+          musicOn = true;
+          master.gain.cancelScheduledValues(ac.currentTime);
+          master.gain.linearRampToValueAtTime(0.5, ac.currentTime + 2.5);
+          const b = $("#music");
+          b.classList.add("show");
+          b.classList.remove("off");
+          b.textContent = "♪";
+        } catch (e) {}
+      }
+      $("#music").onclick = () => {
+        if (!ac) return startMusic();
+        const b = $("#music");
+        if (musicOn) {
+          musicOn = false;
+          master.gain.linearRampToValueAtTime(0, ac.currentTime + 0.4);
+          b.classList.add("off");
+          b.textContent = "♪̸";
+        } else {
+          ac.resume();
+          musicOn = true;
+          master.gain.linearRampToValueAtTime(0.5, ac.currentTime + 1);
+          b.classList.remove("off");
+          b.textContent = "♪";
+        }
+      };
       go(-1);
     </script>
   </body>
